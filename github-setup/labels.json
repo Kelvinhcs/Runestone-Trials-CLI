@@ -1,0 +1,142 @@
+[
+  {
+    "name": "priority:0",
+    "color": "b60205",
+    "description": "Urgência máxima. Deve ser tratado imediatamente."
+  },
+  {
+    "name": "priority:1",
+    "color": "d93f0b",
+    "description": "Muito alta prioridade. Deve entrar antes da maior parte do backlog."
+  },
+  {
+    "name": "priority:2",
+    "color": "fbca04",
+    "description": "Alta prioridade. Importante para a evolução próxima do projeto."
+  },
+  {
+    "name": "priority:3",
+    "color": "fef2c0",
+    "description": "Média prioridade. Pode ser planejado após itens principais."
+  },
+  {
+    "name": "priority:4",
+    "color": "c2e0c6",
+    "description": "Baixa prioridade. Útil, mas sem urgência."
+  },
+  {
+    "name": "priority:5",
+    "color": "0e8a16",
+    "description": "Menor prioridade. Item opcional ou de longo prazo."
+  },
+  {
+    "name": "type:feature",
+    "color": "1d76db",
+    "description": "Nova funcionalidade."
+  },
+  {
+    "name": "type:enhancement",
+    "color": "0366d6",
+    "description": "Melhoria em funcionalidade existente."
+  },
+  {
+    "name": "type:bug",
+    "color": "d73a4a",
+    "description": "Correção de defeito ou comportamento inesperado."
+  },
+  {
+    "name": "type:refactor",
+    "color": "5319e7",
+    "description": "Refatoração sem alteração de comportamento externo."
+  },
+  {
+    "name": "type:docs",
+    "color": "0075ca",
+    "description": "Mudanças de documentação."
+  },
+  {
+    "name": "type:test",
+    "color": "bfd4f2",
+    "description": "Criação ou ajuste de testes."
+  },
+  {
+    "name": "type:chore",
+    "color": "cfd3d7",
+    "description": "Tarefa de manutenção, configuração ou suporte."
+  },
+  {
+    "name": "type:design",
+    "color": "0052cc",
+    "description": "Modelagem, UML, arquitetura ou decisões de design."
+  },
+  {
+    "name": "status:blocked",
+    "color": "000000",
+    "description": "Dependente de algo externo ou impedido por bloqueio."
+  },
+  {
+    "name": "status:ready",
+    "color": "0e8a16",
+    "description": "Pronto para desenvolvimento."
+  },
+  {
+    "name": "status:in-progress",
+    "color": "fbca04",
+    "description": "Em andamento."
+  },
+  {
+    "name": "status:review",
+    "color": "5319e7",
+    "description": "Em revisão técnica ou acadêmica."
+  },
+  {
+    "name": "status:needs-info",
+    "color": "d876e3",
+    "description": "Precisa de mais contexto, definição ou validação."
+  },
+  {
+    "name": "area:core",
+    "color": "1d76db",
+    "description": "Núcleo de domínio do jogo."
+  },
+  {
+    "name": "area:combat",
+    "color": "b60205",
+    "description": "Sistema de combate e regras de dano."
+  },
+  {
+    "name": "area:cli",
+    "color": "0052cc",
+    "description": "Menu, fluxo e interação via terminal."
+  },
+  {
+    "name": "area:architecture",
+    "color": "5319e7",
+    "description": "Estrutura do projeto, organização e arquitetura."
+  },
+  {
+    "name": "area:docs",
+    "color": "0075ca",
+    "description": "README, relatório, roteiro e documentação."
+  },
+  {
+    "name": "area:presentation",
+    "color": "c5def5",
+    "description": "Vídeo, demonstração e materiais de apresentação."
+  },
+  {
+    "name": "difficulty:easy",
+    "color": "c2e0c6",
+    "description": "Baixa complexidade técnica."
+  },
+  {
+    "name": "difficulty:medium",
+    "color": "fbca04",
+    "description": "Complexidade moderada."
+  },
+  {
+    "name": "difficulty:hard",
+    "color": "d93f0b",
+    "description": "Maior esforço técnico ou conceitual."
+  }
+]

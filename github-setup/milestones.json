@@ -1,0 +1,27 @@
+[
+  {
+    "title": "M1 - Fundação do Domínio",
+    "description": "Estabelecer a base do projeto com a modelagem principal: classe Personagem, atributos, construtor, getters/setters e exibição de ficha.",
+    "due_on": "2026-04-05T23:59:59Z"
+  },
+  {
+    "title": "M2 - Classes Jogáveis e Polimorfismo",
+    "description": "Implementar Guerreiro, Mago e Arqueiro com herança e sobrescrita dos comportamentos principais, especialmente atacar() e exibirFicha().",
+    "due_on": "2026-04-19T23:59:59Z"
+  },
+  {
+    "title": "M3 - Fluxo CLI e Combate Básico",
+    "description": "Construir a Main com menu interativo, criação de personagem, visualização de ficha e ataque contra inimigo fixo.",
+    "due_on": "2026-05-03T23:59:59Z"
+  },
+  {
+    "title": "M4 - Qualidade, Validação e Organização",
+    "description": "Melhorar tratamento de erros, organização em pacotes, cálculo de dano e experiência de uso no terminal.",
+    "due_on": "2026-05-17T23:59:59Z"
+  },
+  {
+    "title": "M5 - Extras, Documentação e Apresentação",
+    "description": "Concluir diferenciais opcionais, documentação acadêmica, roteiro da apresentação e ajustes finais para entrega.",
+    "due_on": "2026-05-31T23:59:59Z"
+  }
+]

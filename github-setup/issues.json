@@ -1,0 +1,273 @@
+[
+  {
+    "title": "Criar classe base Personagem",
+    "body": "## Descrição\nCriar a classe principal que representa um personagem do jogo, contendo atributos e comportamentos básicos compartilhados pelas subclasses.\n\n## Objetivo\nEstabelecer a base do domínio do projeto com foco em encapsulamento e modelagem orientada a objetos.\n\n## Critérios de aceitação\n- [ ] Classe `Personagem` criada\n- [ ] Atributos `nome`, `pontosDeVida`, `ataque` e `defesa` definidos\n- [ ] Atributos com visibilidade `private` ou `protected`\n- [ ] Construtor principal implementado\n- [ ] Estrutura pronta para herança\n\n## Conceitos envolvidos\n- Classes e objetos\n- Encapsulamento\n- Construtores",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "difficulty:easy",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M1 - Fundação do Domínio"
+  },
+  {
+    "title": "Implementar getters e setters com validação em Personagem",
+    "body": "## Descrição\nImplementar métodos de acesso para todos os atributos da classe `Personagem`, incluindo validação para impedir valores inválidos.\n\n## Objetivo\nGarantir encapsulamento e proteção das regras mínimas de integridade do objeto.\n\n## Critérios de aceitação\n- [ ] Getters implementados para todos os atributos\n- [ ] Setters implementados para todos os atributos\n- [ ] `pontosDeVida` não aceita valor negativo\n- [ ] Demais validações básicas avaliadas conforme necessidade\n\n## Conceitos envolvidos\n- Encapsulamento\n- Regras de negócio\n- Validação de dados",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "difficulty:easy",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M1 - Fundação do Domínio"
+  },
+  {
+    "title": "Implementar método exibirFicha() na classe Personagem",
+    "body": "## Descrição\nCriar o método responsável por exibir os dados do personagem no terminal.\n\n## Objetivo\nPermitir visualização dos atributos do personagem e servir de base para sobrescrita nas subclasses.\n\n## Critérios de aceitação\n- [ ] Método `exibirFicha()` implementado\n- [ ] Exibe nome, pontos de vida, ataque e defesa\n- [ ] Saída legível no terminal\n\n## Conceitos envolvidos\n- Métodos\n- Saída no terminal\n- Reutilização de comportamento",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "area:cli",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M1 - Fundação do Domínio"
+  },
+  {
+    "title": "Implementar método atacar(Personagem alvo) na classe base",
+    "body": "## Descrição\nCriar o método de ataque na classe `Personagem` para servir como base para sobrescrita nas subclasses.\n\n## Objetivo\nDefinir a assinatura do comportamento de combate e preparar o uso de polimorfismo.\n\n## Critérios de aceitação\n- [ ] Método `atacar(Personagem alvo)` criado\n- [ ] Estrutura compatível com sobrescrita nas subclasses\n- [ ] Vida do alvo nunca fica negativa\n\n## Conceitos envolvidos\n- Métodos\n- Interação entre objetos\n- Polimorfismo",
+    "labels": [
+      "type:feature",
+      "area:combat",
+      "area:core",
+      "difficulty:medium",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M1 - Fundação do Domínio"
+  },
+  {
+    "title": "Criar classe Guerreiro",
+    "body": "## Descrição\nImplementar a classe `Guerreiro` herdando de `Personagem`, com atributos iniciais conforme especificação.\n\n## Objetivo\nAplicar herança e criar a primeira classe jogável do sistema.\n\n## Critérios de aceitação\n- [ ] Classe `Guerreiro` criada com `extends Personagem`\n- [ ] Construtor configurado com atributos padrão\n- [ ] Estrutura pronta para sobrescrita de comportamento\n\n## Conceitos envolvidos\n- Herança\n- Construtores\n- Especialização de classes",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "difficulty:easy",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M2 - Classes Jogáveis e Polimorfismo"
+  },
+  {
+    "title": "Criar classe Mago",
+    "body": "## Descrição\nImplementar a classe `Mago` herdando de `Personagem`, com foco em ataque alto e menor resistência.\n\n## Objetivo\nRepresentar uma segunda classe jogável com características próprias.\n\n## Critérios de aceitação\n- [ ] Classe `Mago` criada com `extends Personagem`\n- [ ] Construtor configurado com atributos padrão\n- [ ] Estrutura pronta para sobrescrita de comportamento\n\n## Conceitos envolvidos\n- Herança\n- Modelagem de classes\n- Especialização de comportamento",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "difficulty:easy",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M2 - Classes Jogáveis e Polimorfismo"
+  },
+  {
+    "title": "Criar classe Arqueiro",
+    "body": "## Descrição\nImplementar a classe `Arqueiro` herdando de `Personagem`, com ataque variável por aleatoriedade.\n\n## Objetivo\nRepresentar uma terceira classe jogável e introduzir variação de dano.\n\n## Critérios de aceitação\n- [ ] Classe `Arqueiro` criada com `extends Personagem`\n- [ ] Construtor configurado com atributos padrão\n- [ ] Estrutura pronta para uso de valor aleatório no ataque\n\n## Conceitos envolvidos\n- Herança\n- Biblioteca padrão\n- Aleatoriedade",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "difficulty:medium",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M2 - Classes Jogáveis e Polimorfismo"
+  },
+  {
+    "title": "Sobrescrever atacar() em Guerreiro, Mago e Arqueiro",
+    "body": "## Descrição\nImplementar versões específicas do método `atacar()` em cada subclasse, respeitando as regras do enunciado.\n\n## Objetivo\nDemonstrar polimorfismo com comportamentos distintos por classe.\n\n## Critérios de aceitação\n- [ ] `Guerreiro.atacar()` causa dano conforme regra definida\n- [ ] `Mago.atacar()` causa dano conforme regra definida\n- [ ] `Arqueiro.atacar()` usa valor aleatório adicional\n- [ ] Mensagens específicas de ataque exibidas no terminal\n- [ ] Uso de `@Override`\n\n## Conceitos envolvidos\n- Polimorfismo\n- Sobrescrita de métodos\n- Regras de negócio",
+    "labels": [
+      "type:feature",
+      "area:combat",
+      "difficulty:medium",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M2 - Classes Jogáveis e Polimorfismo"
+  },
+  {
+    "title": "Sobrescrever exibirFicha() nas subclasses",
+    "body": "## Descrição\nAdaptar o método `exibirFicha()` em cada classe jogável para incluir a identificação da classe do personagem.\n\n## Objetivo\nMelhorar a visualização da ficha e reforçar o uso de sobrescrita.\n\n## Critérios de aceitação\n- [ ] `Guerreiro.exibirFicha()` informa a classe\n- [ ] `Mago.exibirFicha()` informa a classe\n- [ ] `Arqueiro.exibirFicha()` informa a classe\n- [ ] Saída permanece organizada e legível\n\n## Conceitos envolvidos\n- Polimorfismo\n- Sobrescrita\n- Reutilização de código",
+    "labels": [
+      "type:feature",
+      "area:core",
+      "area:cli",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M2 - Classes Jogáveis e Polimorfismo"
+  },
+  {
+    "title": "Criar estrutura da classe Main com menu em loop",
+    "body": "## Descrição\nImplementar a classe `Main` com menu via terminal usando `Scanner`, `while` e `switch`.\n\n## Objetivo\nIntegrar o sistema em um fluxo interativo executável pelo usuário.\n\n## Critérios de aceitação\n- [ ] Classe `Main` criada\n- [ ] Menu em loop implementado\n- [ ] Uso de `Scanner`\n- [ ] Uso de `while` e `switch`\n- [ ] Opção de saída funcional\n\n## Conceitos envolvidos\n- Estruturas de controle\n- Entrada e saída\n- Integração entre classes",
+    "labels": [
+      "type:feature",
+      "area:cli",
+      "difficulty:medium",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M3 - Fluxo CLI e Combate Básico"
+  },
+  {
+    "title": "Implementar fluxo de criação de personagem no menu",
+    "body": "## Descrição\nAdicionar ao menu a opção de criação de personagem com nome e escolha de classe.\n\n## Objetivo\nPermitir que o usuário monte seu personagem de forma interativa.\n\n## Critérios de aceitação\n- [ ] Opção de criar personagem implementada\n- [ ] Usuário informa nome\n- [ ] Usuário escolhe entre Guerreiro, Mago e Arqueiro\n- [ ] Objeto correto é instanciado conforme seleção\n\n## Conceitos envolvidos\n- Objetos\n- Condicionais\n- Instanciação dinâmica",
+    "labels": [
+      "type:feature",
+      "area:cli",
+      "area:core",
+      "difficulty:medium",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M3 - Fluxo CLI e Combate Básico"
+  },
+  {
+    "title": "Implementar opção de visualizar ficha no menu",
+    "body": "## Descrição\nAdicionar ao menu a funcionalidade de exibir a ficha do personagem criado.\n\n## Objetivo\nPermitir verificar os dados atuais do personagem em execução.\n\n## Critérios de aceitação\n- [ ] Opção de visualizar ficha implementada\n- [ ] Chama `exibirFicha()` do personagem criado\n- [ ] Trata cenário em que ainda não existe personagem criado\n\n## Conceitos envolvidos\n- Fluxo de interface\n- Encapsulamento\n- Reuso de métodos",
+    "labels": [
+      "type:feature",
+      "area:cli",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M3 - Fluxo CLI e Combate Básico"
+  },
+  {
+    "title": "Implementar inimigo fixo para combate",
+    "body": "## Descrição\nCriar o inimigo básico usado na opção de ataque, conforme sugerido no enunciado.\n\n## Objetivo\nHabilitar a simulação de combate mínima exigida no trabalho.\n\n## Critérios de aceitação\n- [ ] Inimigo fixo criado para teste de combate\n- [ ] Inimigo possui pontos de vida definidos\n- [ ] Estrutura integrada com a opção de ataque do menu\n\n## Conceitos envolvidos\n- Objetos\n- Reutilização de classe base\n- Interação entre entidades",
+    "labels": [
+      "type:feature",
+      "area:combat",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M3 - Fluxo CLI e Combate Básico"
+  },
+  {
+    "title": "Implementar opção Atacar inimigo no menu",
+    "body": "## Descrição\nAdicionar ao menu a funcionalidade que executa um ataque do personagem contra o inimigo fixo.\n\n## Objetivo\nConcluir o ciclo mínimo jogável do sistema.\n\n## Critérios de aceitação\n- [ ] Opção de ataque implementada no menu\n- [ ] Ataque chama o método apropriado da classe do personagem\n- [ ] Resultado do ataque exibido no terminal\n- [ ] Trata cenário em que ainda não existe personagem criado\n\n## Conceitos envolvidos\n- Polimorfismo\n- Fluxo de aplicação\n- Integração entre classes",
+    "labels": [
+      "type:feature",
+      "area:combat",
+      "area:cli",
+      "difficulty:medium",
+      "priority:0",
+      "status:ready"
+    ],
+    "milestone": "M3 - Fluxo CLI e Combate Básico"
+  },
+  {
+    "title": "Melhorar cálculo de dano considerando defesa",
+    "body": "## Descrição\nEvoluir a regra de dano para considerar o atributo de defesa do alvo.\n\n## Objetivo\nTornar o sistema de combate mais consistente e realista.\n\n## Critérios de aceitação\n- [ ] Dano considera ataque e defesa\n- [ ] Existe valor mínimo de dano para evitar ataque nulo absoluto\n- [ ] Regra documentada de forma simples\n\n## Conceitos envolvidos\n- Regras de negócio\n- Modelagem de domínio\n- Refino funcional",
+    "labels": [
+      "type:enhancement",
+      "area:combat",
+      "difficulty:medium",
+      "priority:2",
+      "status:ready"
+    ],
+    "milestone": "M4 - Qualidade, Validação e Organização"
+  },
+  {
+    "title": "Validar entradas inválidas no menu com tratamento de erros",
+    "body": "## Descrição\nMelhorar a robustez do menu para entradas inválidas, inclusive tipos incompatíveis.\n\n## Objetivo\nEvitar falhas de execução e melhorar a experiência de uso.\n\n## Critérios de aceitação\n- [ ] Entradas inválidas são tratadas sem encerrar o programa\n- [ ] Uso de `try/catch` onde fizer sentido\n- [ ] Mensagens claras para orientar o usuário\n\n## Conceitos envolvidos\n- Tratamento de exceções\n- Validação de entrada\n- Robustez de software",
+    "labels": [
+      "type:enhancement",
+      "area:cli",
+      "difficulty:medium",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M4 - Qualidade, Validação e Organização"
+  },
+  {
+    "title": "Organizar projeto em pacotes",
+    "body": "## Descrição\nSeparar as classes do projeto em pacotes coerentes para melhorar manutenção e legibilidade.\n\n## Objetivo\nDar estrutura profissional ao projeto e facilitar navegação no código.\n\n## Critérios de aceitação\n- [ ] Classes do domínio em pacote apropriado\n- [ ] Classe principal em pacote apropriado\n- [ ] Imports ajustados\n- [ ] Projeto continua compilando e executando normalmente\n\n## Conceitos envolvidos\n- Organização de projeto\n- Arquitetura simples\n- Boas práticas em Java",
+    "labels": [
+      "type:refactor",
+      "area:architecture",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M4 - Qualidade, Validação e Organização"
+  },
+  {
+    "title": "Melhorar apresentação visual do menu no terminal",
+    "body": "## Descrição\nRefinar a exibição textual do menu e das mensagens do sistema para deixar a interface mais clara e agradável.\n\n## Objetivo\nMelhorar a usabilidade e a qualidade percebida do projeto.\n\n## Critérios de aceitação\n- [ ] Menu com separadores visuais\n- [ ] Mensagens padronizadas\n- [ ] Fluxo de navegação mais claro\n\n## Conceitos envolvidos\n- UX em CLI\n- Padronização de saída\n- Qualidade de interface textual",
+    "labels": [
+      "type:enhancement",
+      "area:cli",
+      "difficulty:easy",
+      "priority:3",
+      "status:ready"
+    ],
+    "milestone": "M4 - Qualidade, Validação e Organização"
+  },
+  {
+    "title": "Criar múltiplos inimigos selecionáveis",
+    "body": "## Descrição\nExpandir o combate para permitir mais de um inimigo com atributos diferentes.\n\n## Objetivo\nAumentar a flexibilidade e enriquecer a simulação.\n\n## Critérios de aceitação\n- [ ] Existem múltiplos inimigos disponíveis\n- [ ] Usuário consegue selecionar o alvo no fluxo de combate\n- [ ] Estrutura mantém compatibilidade com a modelagem atual\n\n## Conceitos envolvidos\n- Generalização\n- Reutilização\n- Expansão incremental do domínio",
+    "labels": [
+      "type:enhancement",
+      "area:combat",
+      "difficulty:medium",
+      "priority:3",
+      "status:ready"
+    ],
+    "milestone": "M4 - Qualidade, Validação e Organização"
+  },
+  {
+    "title": "Criar diagrama UML do projeto",
+    "body": "## Descrição\nDocumentar a estrutura das classes e relações do sistema por meio de um diagrama UML.\n\n## Objetivo\nApoiar a documentação acadêmica e evidenciar a arquitetura orientada a objetos.\n\n## Critérios de aceitação\n- [ ] Diagrama UML criado\n- [ ] Relações de herança representadas\n- [ ] Principais atributos e métodos incluídos\n- [ ] Material pronto para uso no relatório\n\n## Conceitos envolvidos\n- Modelagem\n- Documentação técnica\n- Projeto orientado a objetos",
+    "labels": [
+      "type:design",
+      "area:architecture",
+      "area:academic",
+      "difficulty:medium",
+      "priority:2",
+      "status:ready"
+    ],
+    "milestone": "M5 - Extras, Documentação e Apresentação"
+  },
+  {
+    "title": "Escrever README profissional do projeto",
+    "body": "## Descrição\nProduzir um README claro, acadêmico e profissional para apresentação do projeto no GitHub.\n\n## Objetivo\nMelhorar a apresentação pública do repositório e registrar objetivos, estrutura e execução.\n\n## Critérios de aceitação\n- [ ] Descrição do projeto presente\n- [ ] Objetivo acadêmico presente\n- [ ] Funcionalidades listadas\n- [ ] Instruções de execução presentes\n- [ ] Estrutura do projeto documentada\n\n## Conceitos envolvidos\n- Documentação\n- Comunicação técnica\n- Apresentação profissional",
+    "labels": [
+      "type:docs",
+      "area:docs",
+      "difficulty:easy",
+      "priority:1",
+      "status:ready"
+    ],
+    "milestone": "M5 - Extras, Documentação e Apresentação"
+  },
+  {
+    "title": "Preparar roteiro da apresentação em vídeo",
+    "body": "## Descrição\nEstruturar o roteiro de apresentação do projeto para o vídeo exigido pela disciplina.\n\n## Objetivo\nGarantir que o grupo apresente contexto, tecnologias, demonstração, dificuldades e soluções de forma organizada.\n\n## Critérios de aceitação\n- [ ] Roteiro com abertura, desenvolvimento e encerramento\n- [ ] Tecnologias e tema contemplados\n- [ ] Demonstração de funcionamento prevista\n- [ ] Dificuldades e soluções incluídas\n- [ ] Tempo estimado compatível com exigência da disciplina\n\n## Conceitos envolvidos\n- Comunicação técnica\n- Organização de apresentação\n- Entregáveis acadêmicos",
+    "labels": [
+      "type:docs",
+      "area:presentation",
+      "area:academic",
+      "difficulty:medium",
+      "priority:2",
+      "status:ready"
+    ],
+    "milestone": "M5 - Extras, Documentação e Apresentação"
+  }
+]
