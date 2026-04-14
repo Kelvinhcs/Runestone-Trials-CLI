@@ -91,10 +91,6 @@ public abstract class Personagem {
         defender();
     }
 
-    /** Zera o bloqueio pendente (fuga, fim de batalha, reinício de encontro). */
-    public void limparEstadoCombate() {
-        bloqueioExtraProximoGolpe = false;
-    }
 
     /** 1d6 com registro no log, estilo mesa (ex.: «1d6 → [4] = 4»). */
     protected int rolarD6(String rotulo) {
