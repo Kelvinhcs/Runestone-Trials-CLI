@@ -24,8 +24,6 @@ public final class MenuPrincipal {
             tratarEscolha(escolha, scanner, estado);
             if (escolha == OpcaoMenu.SAIR) {
                 rodando = false;
-            } else if (escolha != OpcaoMenu.INVALIDA) {
-                aguardarEnter(scanner);
             }
         }
     }
@@ -67,28 +65,33 @@ public final class MenuPrincipal {
     }
 
     private static void criarPersonagem(Scanner scanner, EstadoJogo estado) {
-        System.out.print("Nome do personagem: ");
-        String nome = scanner.nextLine().trim();
-        if (nome.isEmpty()) {
-            nome = "Aventureiro";
-        }
-        System.out.println("Escolha a classe:");
-        System.out.println("  1 - Guerreiro");
-        System.out.println("  2 - Mago");
-        System.out.println("  3 - Arqueiro");
-        System.out.print("Classe (1-3): ");
-        String c = scanner.hasNextLine() ? scanner.nextLine().trim() : "";
-        Personagem jogador = switch (c) {
-            case "1" -> new Guerreiro(nome);
-            case "2" -> new Mago(nome);
-            case "3" -> new Arqueiro(nome);
-            default -> null;
-        };
-        if (jogador == null) {
-            System.out.println("Classe inválida. Personagem não foi criado.");
-        } else {
-            estado.setJogador(jogador);
-            System.out.println("Personagem criado: " + jogador.getNome() + ".");
+        boolean criado = false;
+        while (!criado){
+            System.out.print("Nome do personagem: ");
+            String nome = scanner.nextLine().trim();
+            if (nome.isEmpty()) {
+                System.out.println("O nome não pode ser vazio! Personagem não foi criado.");
+                continue;
+            }
+            System.out.println("Estas são as classes disponíveis:");
+            System.out.println("  1 - Guerreiro");
+            System.out.println("  2 - Mago");
+            System.out.println("  3 - Arqueiro");
+            System.out.print("Escolha a sua classe: ");
+            String c = scanner.hasNextLine() ? scanner.nextLine().trim() : "";
+            Personagem jogador = switch (c) {
+                case "1" -> new Guerreiro(nome);
+                case "2" -> new Mago(nome);
+                case "3" -> new Arqueiro(nome);
+                default -> null;
+            };
+            if (jogador == null) {
+                System.out.println("Classe inválida. Personagem não foi criado.");
+            } else {
+                estado.setJogador(jogador);
+                System.out.println("Personagem criado: " + jogador.getNome() + ".");
+                criado = true;
+            }
         }
     }
 
@@ -99,10 +102,5 @@ public final class MenuPrincipal {
             return;
         }
         jogador.exibirFicha();
-    }
-
-    private static void aguardarEnter(Scanner scanner) {
-        System.out.print("\nPressione ENTER para voltar ao menu...");
-        scanner.nextLine();
     }
 }
