@@ -2,7 +2,7 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * Classe base para todo personagem adicionado ao jogo.
+ * Classe base para todos os personagens adicionado ao jogo.
  */
 public abstract class Personagem {
 
@@ -10,24 +10,18 @@ public abstract class Personagem {
     protected String nome;
     protected int pontosDeVida;
     protected int ataque;
-    protected int defesa;
+    protected int ca;
     protected Armaduras armadura;
     protected Armas arma;
 
-    /**
-     * Usado apenas durante batalha: se true, o próximo dano recebido aplica −1d6 após a defesa fixa.
-     * Controlado pelo fluxo de combate.
-     */
-    private boolean bloqueioExtraProximoGolpe;
 
-    public Personagem(String nome, int pontosDeVida, int ataque, int defesa) {
+    public Personagem(String nome, int pontosDeVida, int ataque, int ca) {
         setNome(nome);
         setPontosDeVida(pontosDeVida);
         setAtaque(ataque);
-        setDefesa(defesa);
+        setCa(ca);
         this.armadura = null;
         this.arma = null;
-        this.bloqueioExtraProximoGolpe = false;
     }
 
     public String getNome() {
@@ -51,15 +45,15 @@ public abstract class Personagem {
     }
 
     public void setAtaque(int ataque) {
-        this.ataque = Math.max(0, ataque);
+        this.ataque = ataque;
     }
 
-    public int getDefesa() {
-        return defesa;
+    public int getCa() {
+        return ca;
     }
 
-    public void setDefesa(int defesa) {
-        this.defesa = Math.max(0, defesa);
+    public void setCa(int ca) {
+        this.ca = Math.max(0, ca);
     }
 
     public Armaduras getArmadura() {
@@ -82,42 +76,57 @@ public abstract class Personagem {
         return pontosDeVida <= 0;
     }
 
-    /**
-     * Marca o próximo golpe recebido para aplicar bloqueio extra (1d6) e exibe o texto de {@link #defender()}.
-     * Deve ser usado só no contexto de rodadas de batalha.
-     */
-    public void prepararBloqueioProximoGolpe() {
-        bloqueioExtraProximoGolpe = true;
-        defender();
+    /** Rolagem de dados com retorno do valor e print do resultado
+     * Exemplo: « Ataque de fogo: 1d8 → [4] » */
+    protected int rolarDado(String rotulo, int faces) {
+        int resultado = RNG.nextInt(faces) + 1;
+        System.out.println(" « " + rotulo + ": 1d" + faces + " → [" + resultado + "] » ");
+        return resultado;
     }
 
-
-    /** 1d6 com registro no log, estilo mesa (ex.: «1d6 → [4] = 4»). */
-    protected int rolarD6(String rotulo) {
-        int faces = RNG.nextInt(6) + 1;
-        System.out.println("  ⌁ " + rotulo + ": 1d6 → [" + faces + "] = " + faces);
-        return faces;
-    }
-
-    /**
-     * Dano bruto é reduzido pela defesa fixa; se houver bloqueio de combate preparado, subtrai-se mais 1d6 (uma vez).
-     */
     protected void receberDano(int danoBruto) {
-        int dano = Math.max(0, danoBruto - defesa);
-        if (bloqueioExtraProximoGolpe) {
-            int bloqueio = rolarD6("Bloqueio (postura defensiva)");
-            dano = Math.max(0, dano - bloqueio);
-            bloqueioExtraProximoGolpe = false;
-        }
-        setPontosDeVida(pontosDeVida - dano);
-        System.out.println("  → " + nome + " sofre " + dano + " de dano | PV restantes: " + pontosDeVida);
+        setPontosDeVida(pontosDeVida - danoBruto);
+        System.out.println(" « " + nome + " sofre " + danoBruto + " de dano | PV restantes: " + pontosDeVida);
     }
 
-    public abstract void atacar(Personagem alvo);
+    protected boolean podeAtacar(Personagem alvo) {
+        if (alvo == null) {
+            System.out.println("[ " + nome + " ] Não há alvo.");
+            return false;
+        }
+        if (alvo == this) {
+            System.out.println("[ " + nome + " ] Não é possível atacar a si mesmo.");
+            return false;
+        }
+        if (estaDerrotado()) {
+            System.out.println("[ " + nome + " ] Você está derrotado e não pode atacar.");
+            return false;
+        }
+        if (alvo.estaDerrotado()) {
+            System.out.println("[ " + nome + " ] O alvo já está derrotado.");
+            return false;
+        }
+        return true;
+    }
+
+    public final void atacar(Personagem alvo) {
+        if (!podeAtacar(alvo)) return;
+        int rolagem = rolarDado("Teste de acerto", 20);
+        boolean acertou = rolagem >= alvo.getCa();
+
+        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa() + " — " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
+
+        if (acertou) {
+            executarAtaque(alvo);
+        }
+    }
+
+    protected abstract void executarAtaque(Personagem alvo);
 
     /** Comportamento de defesa — sobrescrito nas subclasses. */
-    public void defender() {
+    public int defender() {
         System.out.println("[" + nome + "] Postura defensiva!");
+        return rolarDado("Defesa ativa",8);
     }
 
     /** Dados comuns da ficha; subclasses acrescentam a linha da classe. */
@@ -126,7 +135,7 @@ public abstract class Personagem {
         System.out.println("Nome: " + nome);
         System.out.println("Pontos de vida: " + pontosDeVida);
         System.out.println("Ataque: " + ataque);
-        System.out.println("Defesa: " + defesa);
+        System.out.println("Defesa (C.A.): " + ca);
         if (armadura != null) {
             System.out.println("Armadura: " + armadura.getDisplayName());
         }

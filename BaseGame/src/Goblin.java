@@ -4,27 +4,17 @@
 public class Goblin extends Personagem {
 
     public Goblin() {
-        super("Goblin", 50, 12, 5);
+        super("Goblin", 30, 5, 12);
     }
 
     @Override
-    public void atacar(Personagem alvo) {
-        if (alvo == null || alvo == this || estaDerrotado()) {
-            return;
-        }
-        if (alvo.estaDerrotado()) {
-            return;
-        }
-        int d6 = rolarD6("Fúria do goblin");
-        int danoBruto = getAtaque() + d6;
+    protected void executarAtaque(Personagem alvo) {
+        int dado = rolarDado("Garfada do goblin", 6);
+        int dano = getAtaque() + dado;
         System.out.println("[GOBLIN] Garfada feroz!");
-        alvo.receberDano(danoBruto);
+        alvo.receberDano(dano);
     }
 
-    @Override
-    public void defender() {
-        System.out.println("[GOBLIN] Se encolhe atrás de um saco podre!");
-    }
 
     @Override
     public void exibirFicha() {
