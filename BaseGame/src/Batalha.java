@@ -26,13 +26,14 @@ public final class Batalha {
             boolean fugiu = executarTurnoJogador(scanner, jogador, goblin, caOriginal, estado);
             if (fugiu) return;
 
-            if (!estado.temGoblin()){
-                goblin = estado.getAndCreateGoblin();
-            } if (goblin.estaDerrotado()) {
+            if (goblin.estaDerrotado()) {
                 System.out.println();
                 System.out.println("Vitória! O Goblin foi derrotado.");
                 estado.limparGoblin();
                 break;
+            }
+            if (!estado.temGoblin()){
+                goblin = estado.getAndCreateGoblin();
             }
             executarTurnoInimigo(goblin, jogador);
             if (jogador.estaDerrotado()) {
@@ -96,10 +97,10 @@ public final class Batalha {
         goblin.atacar(jogador);
         System.out.println();
         System.out.println();
+        System.out.println();
     }
 
     private static void reiniciarEncontro(EstadoJogo estado) {
         estado.limparGoblin();
-        estado.getAndCreateGoblin();
     }
 }

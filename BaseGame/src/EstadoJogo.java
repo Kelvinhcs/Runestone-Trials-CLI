@@ -15,7 +15,7 @@ public class EstadoJogo {
     }
 
     public boolean temGoblin(){
-        return goblinDeCombate != null;
+        return goblinDeCombate != null && !goblinDeCombate.estaDerrotado();
     }
 
     public Personagem getJogador() {

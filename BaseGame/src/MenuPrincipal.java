@@ -33,7 +33,7 @@ public final class MenuPrincipal {
         System.out.println("========== RUNESTONE TRIALS ==========");
         System.out.println("  1 - Criar personagem");
         System.out.println("  2 - Ver ficha");
-        System.out.println("  3 - Atacar inimigo (Goblin, 50 PV)");
+        System.out.println("  3 - Atacar inimigo");
         System.out.println("  4 - Sair");
         System.out.println("======================================");
         System.out.print("Escolha uma opção: ");
@@ -96,11 +96,10 @@ public final class MenuPrincipal {
     }
 
     private static void verFicha(EstadoJogo estado) {
-        Personagem jogador = estado.getJogador();
-        if (jogador == null) {
+        if (!estado.temJogador()) {
             System.out.println("Nenhum personagem criado. Use a opção 1 primeiro.");
             return;
         }
-        jogador.exibirFicha();
+        estado.getJogador().exibirFicha();
     }
 }
