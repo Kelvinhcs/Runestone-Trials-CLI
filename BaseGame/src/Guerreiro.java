@@ -1,15 +1,12 @@
 public class Guerreiro extends Personagem {
 
     public Guerreiro(String nome) {
-        super(nome, 120, 8, 16);
+        super(nome, 120, 8, 10);
     }
 
     @Override
-    protected void executarAtaque(Personagem alvo) {
-        int dado = rolarDado("Golpe de espada", 12);
-        int dano = getAtaque() + dado;
-        System.out.println("[ " + nome + " ] Golpe brutal!");
-        alvo.receberDano(dano);
+    protected int calcularDado(Personagem alvo) {
+        return rolarDado("Corte Brutal!", 12);
     }
 
     @Override

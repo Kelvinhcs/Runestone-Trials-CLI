@@ -1,16 +1,14 @@
 public class Mago extends Personagem {
 
     public Mago(String nome) {
-        super(nome, 60, 14, 11);
+        super(nome, 60, 12, 12);
     }
 
     @Override
-    protected void executarAtaque(Personagem alvo) {
-        int dado1 = rolarDado("Bola de Fogo 1", 8);
-        int dado2 = rolarDado("Bola de Fogo 2", 8);
-        int dano = getAtaque() + dado1 + dado2;
-        System.out.println("[ " + nome + " ] Bola de Fogo!");
-        alvo.receberDano(dano);
+    protected int calcularDado(Personagem alvo) {
+        int d1 = rolarDado("Bola de Fogo 1", 8);
+        int d2 = rolarDado("Bola de Fogo 2", 8);
+        return d1 + d2;
     }
 
     @Override

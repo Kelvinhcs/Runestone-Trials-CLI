@@ -4,15 +4,12 @@
 public class Goblin extends Personagem {
 
     public Goblin() {
-        super("Goblin", 30, 5, 12);
+        super("Goblin", 45, 6, 10);
     }
 
     @Override
-    protected void executarAtaque(Personagem alvo) {
-        int dado = rolarDado("Garfada do goblin", 6);
-        int dano = getAtaque() + dado;
-        System.out.println("[GOBLIN] Garfada feroz!");
-        alvo.receberDano(dano);
+    protected int calcularDado(Personagem alvo) {
+        return rolarDado("Garfada do goblin", 6);
     }
 
 

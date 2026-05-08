@@ -112,18 +112,41 @@ public abstract class Personagem {
     public final void atacar(Personagem alvo) {
         if (!podeAtacar(alvo)) return;
         int rolagem = rolarDado("Teste de acerto", 20);
+
+        if (rolagem == 1) {
+            System.out.println(" « ERRO CRÍTICO! " + nome + " tropeçou no próprio pé! » ");
+            return;
+        }
+
+        if (rolagem == 20) {
+            System.out.println(" « ACERTO CRÍTICO! » ");
+            int bonus = getBonusDano();
+            int dado = calcularDado(alvo);
+            int danoTotal = (dado + bonus) * 2;
+            System.out.println(" « Dano crítico: (" + dado + " + " + bonus + ") x2 = " + danoTotal + " » ");
+            alvo.receberDano(danoTotal);
+            return;
+        }
         boolean acertou = rolagem >= alvo.getCa();
 
-        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa() + " — " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
+        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa() + " - " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
 
         if (acertou) {
-            executarAtaque(alvo);
+            int bonus = getBonusDano();
+            int dado = calcularDado(alvo);
+            int danoTotal = bonus + dado;
+            System.out.println(" « Dano: " + dado + " (dado) + " + bonus + " (bônus) = " + danoTotal + " » ");
+            alvo.receberDano(danoTotal);
         }
     }
 
-    protected abstract void executarAtaque(Personagem alvo);
+    protected int getBonusDano() {
+        return getAtaque();
+    }
 
-    /** Comportamento de defesa — sobrescrito nas subclasses. */
+    protected abstract int calcularDado(Personagem alvo);
+
+    /** Comportamento de defesa - sobrescrito nas subclasses. */
     public int defender() {
         System.out.println("[" + nome + "] Postura defensiva!");
         return rolarDado("Defesa ativa",8);
