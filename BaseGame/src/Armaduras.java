@@ -1,86 +1,68 @@
 public enum Armaduras {
-    // ─── Sem Armadura ─────────────────────────────────────────────────────────
-    NONE("Nenhuma", ArmorType.UNARMORED, 0, 0, 0.0),
-
-    // ─── Armaduras Leves ──────────────────────────────────────────────────────
-    CLOTH_ROBE("Manto de Tecido", ArmorType.LIGHT, 1, 0, 0.5),
-    LEATHER_ARMOR("Couro", ArmorType.LIGHT, 2, 0, 3.0),
-    STUDDED_LEATHER("Couro Cravejado", ArmorType.LIGHT, 3, 0, 4.5),
-
-    // ─── Armaduras Médias ─────────────────────────────────────────────────────
-    HIDE_ARMOR("Couro Bruto", ArmorType.MEDIUM, 4, -1, 8.0),
-    CHAIN_SHIRT("Camisola de Malha", ArmorType.MEDIUM, 5, -1, 10.0),
-    SCALE_MAIL("Escamas", ArmorType.MEDIUM, 6, -2, 14.0),
-    BREASTPLATE("Peitoral", ArmorType.MEDIUM, 7, -1, 12.0),
-
-    // ─── Armaduras Pesadas ────────────────────────────────────────────────────
-    CHAIN_MAIL("Cota de Malha", ArmorType.HEAVY, 10, -3, 25.0),
-    SPLINT_ARMOR("Laminar", ArmorType.HEAVY, 12, -4, 30.0),
-    PLATE_ARMOR("Armadura de Placas", ArmorType.HEAVY, 15, -5, 35.0),
-
-    // ─── Armaduras Mágicas ────────────────────────────────────────────────────
-    ARCANE_ROBE("Manto Arcano", ArmorType.MAGICAL, 4, 2, 2.0),
-    MITHRIL_CHAIN("Malha de Mithril", ArmorType.MAGICAL, 12, 0, 8.0),
-    DRAGONSCALE("Escamas de Dragão", ArmorType.MAGICAL, 16, 0, 20.0);
-
-    // ─── Campos ───────────────────────────────────────────────────────────────
+    // ─── Armaduras Leves ───
+    NONE             ("Sem Armadura", ArmorType.UNARMORED,0,0),
+    ACOLCHOADA       ("Armadura Acolchoada", ArmorType.LIGHT,1,0),
+    COURO            ("Armadura de Couro", ArmorType.LIGHT,2,0),
+    COURO_BATIDO     ("Couro Batido", ArmorType.LIGHT,3,-1),
+    GIBAO_DE_PELES   ("Gibão de Peles", ArmorType.LIGHT,4,-3),
+    COURACA          ("Couraça", ArmorType.LIGHT,5,-4),
+    // ─── Armaduras Pesadas ───
+    BRUNEA           ("Brunea", ArmorType.HEAVY,5,-2),
+    COTA_DE_MALHA    ("Cota de Malha", ArmorType.HEAVY,6,-2),
+    LORIGA_SEGMENTADA("Loriga Segmentada", ArmorType.HEAVY,7,-3),
+    MEIA_ARMADURA    ("Meia Armadura", ArmorType.HEAVY,8,-4),
+    ARMADURA_COMPLETA("Armadura Completa", ArmorType.HEAVY, 10,-5),
+    // ─── Escudos ───
+    ESCUDO_LEVE      ("Escudo Leve",ArmorType.SHIELD,1,-1),
+    ESCUDO_PESADO    ("Escudo Pesado",ArmorType.SHIELD,2,-2);
+    // ─── Campos ───
 
     private final String displayName;
     private final ArmorType type;
-    private final int defense;
-    /** Modificador de agilidade (negativo = penalidade) */
-    private final int agilityModifier;
-    private final double weight;
+    private final int defenseBonus;
+    /** Penalidade de armadura (negativo = penalidade) */
+    private final int armorPenalty;
 
-    // ─── Construtor ───────────────────────────────────────────────────────────
+    // ─── Construtor ───
 
-    Armaduras(String displayName, ArmorType type, int defense, int agilityModifier, double weight) {
-        this.displayName = displayName;
-        this.type = type;
-        this.defense = defense;
-        this.agilityModifier = agilityModifier;
-        this.weight = weight;
-}
+    Armaduras(String displayName, ArmorType type, int defenseBonus, int armorPenalty) {
+        this.displayName  = displayName;
+        this.type         = type;
+        this.defenseBonus = defenseBonus;
+        this.armorPenalty = armorPenalty;}
 
-    // ─── Getters ──────────────────────────────────────────────────────────────
+    // ─── Getters ───
 
-    public String getDisplayName() {return displayName;}
-    public ArmorType getType() {return type;}
-    public int getDefense() {return defense;}
-    public int getAgilityModifier() {return agilityModifier;}
-    public double getWeight() {return weight;}
+    public String getDisplayName() { return displayName; }
+    public ArmorType getType()     { return type; }
+    public int getDefenseBonus()   { return defenseBonus; }
+    public int getArmorPenalty()   { return armorPenalty; }
 
-    // ─── Utilitários ──────────────────────────────────────────────────────────
+    // ─── Utilitários ───
 
-    /** Retorna se a armadura impõe penalidade de agilidade */
-    public boolean hasPenalty() {
-        return agilityModifier < 0;
-    }
+    public boolean temPenalidade() {
+        return armorPenalty < 0;}
 
-    /** Descrição formatada */
     @Override
     public String toString() {
-        String agility = agilityModifier >= 0
-                ? String.format("+%d", agilityModifier)
-                : String.valueOf(agilityModifier);
+        String penalty = armorPenalty == 0
+                ? "0"
+                : String.valueOf(armorPenalty);
 
         return String.format(
-                "%-24s | Tipo: %-12s | Defesa: %2d | Agilidade: %3s | Peso: %.1fkg",
-                displayName, type.getLabel(),
-                defense, agility, weight);
-}
+                "%-24s | Tipo: %-8s | Defesa: +%d | Penalidade: %s",
+                displayName, type.getLabel(), defenseBonus, penalty);}
 
-    // ─── Enum Interno: Tipo de Armadura ───────────────────────────────────────
+    // ─── Enum Interno ───
 
     public enum ArmorType {
         UNARMORED("Sem Armadura"),
-        LIGHT("Leve"),
-        MEDIUM("Média"),
-        HEAVY("Pesada"),
-        MAGICAL("Mágica");
+        LIGHT  ("Leve"),
+        HEAVY  ("Pesada"),
+        SHIELD ("Escudo");
 
         private final String label;
-        ArmorType(String label) {this.label = label;}
-        public String getLabel() {return label;}
+        ArmorType(String label) { this.label = label; }
+        public String getLabel() { return label; }
     }
 }

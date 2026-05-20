@@ -5,8 +5,8 @@ public class Arqueiro extends Personagem {
     }
 
     @Override
-    protected int calcularDado(Personagem alvo) {
-        return rolarDado("Flecha certeira", 8);
+    protected int executarAtaqueSemArma() {
+        return rolarDado("Coronhada", 4);
     }
 
     @Override

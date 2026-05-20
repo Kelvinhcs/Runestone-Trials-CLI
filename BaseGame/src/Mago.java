@@ -5,9 +5,9 @@ public class Mago extends Personagem {
     }
 
     @Override
-    protected int calcularDado(Personagem alvo) {
-        int d1 = rolarDado("Bola de Fogo 1", 8);
-        int d2 = rolarDado("Bola de Fogo 2", 8);
+    protected int executarAtaqueSemArma() {
+        int d1 = rolarDado("Magia bruta 1", 4);
+        int d2 = rolarDado("Magia bruta 2", 4);
         return d1 + d2;
     }
 

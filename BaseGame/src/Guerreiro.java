@@ -5,8 +5,8 @@ public class Guerreiro extends Personagem {
     }
 
     @Override
-    protected int calcularDado(Personagem alvo) {
-        return rolarDado("Corte Brutal!", 12);
+    protected int executarAtaqueSemArma() {
+        return rolarDado("Soco brutal", 6);
     }
 
     @Override

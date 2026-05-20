@@ -8,10 +8,9 @@ public class Goblin extends Personagem {
     }
 
     @Override
-    protected int calcularDado(Personagem alvo) {
+    protected int executarAtaqueSemArma() {
         return rolarDado("Garfada do goblin", 6);
     }
-
 
     @Override
     public void exibirFicha() {

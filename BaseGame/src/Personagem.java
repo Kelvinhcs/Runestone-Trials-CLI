@@ -10,16 +10,19 @@ public abstract class Personagem {
     protected String nome;
     protected int pontosDeVida;
     protected int ataque;
+    private int caBase;
     protected int ca;
     protected Armaduras armadura;
     protected Armas arma;
+    protected Armaduras escudo;
 
 
     public Personagem(String nome, int pontosDeVida, int ataque, int ca) {
         setNome(nome);
         setPontosDeVida(pontosDeVida);
         setAtaque(ataque);
-        setCa(ca);
+        this.caBase = ca;
+        this.ca = ca;
         this.armadura = null;
         this.arma = null;
     }
@@ -48,6 +51,8 @@ public abstract class Personagem {
         this.ataque = ataque;
     }
 
+    public int getCaBase() { return caBase; }
+
     public int getCa() {
         return ca;
     }
@@ -62,6 +67,7 @@ public abstract class Personagem {
 
     public void setArmadura(Armaduras armadura) {
         this.armadura = armadura;
+        recalcularCa();
     }
 
     public Armas getArma() {
@@ -71,6 +77,23 @@ public abstract class Personagem {
     public void setArma(Armas arma) {
         this.arma = arma;
     }
+
+    public Armaduras getEscudo() { return escudo; }
+
+    public void setEscudo(Armaduras escudo) {
+        if (escudo != null && escudo.getType() != Armaduras.ArmorType.SHIELD) {
+            throw new IllegalArgumentException("Item não é um escudo.");
+        }
+        this.escudo = escudo;
+        recalcularCa();
+    }
+
+    private void recalcularCa() {
+        int bonusArmadura = (armadura != null) ? armadura.getDefenseBonus() : 0;
+        int bonusEscudo   = (escudo   != null) ? escudo.getDefenseBonus()   : 0;
+        this.ca = caBase + bonusArmadura + bonusEscudo;
+    }
+
 
     public boolean estaDerrotado() {
         return pontosDeVida <= 0;
@@ -112,39 +135,71 @@ public abstract class Personagem {
     public final void atacar(Personagem alvo) {
         if (!podeAtacar(alvo)) return;
         int rolagem = rolarDado("Teste de acerto", 20);
+        int limiarCritico = (arma != null) ? arma.getCriticalThreshold() : 20;
 
         if (rolagem == 1) {
-            System.out.println(" « ERRO CRÍTICO! " + nome + " tropeçou no próprio pé! » ");
+            System.out.println(" « ERRO CRÍTICO! " + nome + " se feriu com o próprio golpe! » ");
+            aplicarDano(this, 1);
             return;
         }
 
-        if (rolagem == 20) {
+        if (rolagem >= limiarCritico) {
             System.out.println(" « ACERTO CRÍTICO! » ");
-            int bonus = getBonusDano();
-            int dado = calcularDado(alvo);
-            int danoTotal = (dado + bonus) * 2;
-            System.out.println(" « Dano crítico: (" + dado + " + " + bonus + ") x2 = " + danoTotal + " » ");
-            alvo.receberDano(danoTotal);
+            aplicarDano(alvo, 2);
             return;
         }
-        boolean acertou = rolagem >= alvo.getCa();
 
-        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa() + " - " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
+        boolean acertou = rolagem >= alvo.getCa();
+        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa()
+                + " - " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
 
         if (acertou) {
-            int bonus = getBonusDano();
-            int dado = calcularDado(alvo);
-            int danoTotal = bonus + dado;
-            System.out.println(" « Dano: " + dado + " (dado) + " + bonus + " (bônus) = " + danoTotal + " » ");
-            alvo.receberDano(danoTotal);
+            aplicarDano(alvo, 1);
         }
+    }
+
+    private void aplicarDano(Personagem alvo, int multiplicador) {
+        int dado = calcularDado(alvo);
+        int bonus = getBonusDano();
+        int danoBase = dado + bonus;
+        int danoTotal = danoBase * multiplicador;
+
+        String breakdown = multiplicador > 1
+                ? dado + " (dado) + " + bonus + " (bônus) = " + danoBase + " → " + danoBase + " x" + multiplicador + " (crítico) = " + danoTotal
+                : dado + " (dado) + " + bonus + " (bônus) = " + danoTotal;
+
+        System.out.println(" « Dano: " + breakdown + " » ");
+        alvo.receberDano(danoTotal);
     }
 
     protected int getBonusDano() {
         return getAtaque();
     }
 
-    protected abstract int calcularDado(Personagem alvo);
+    protected int calcularDado(Personagem alvo) {
+        if (arma != null) {
+            return rolarDadosDaArma(arma);
+        }
+        return executarAtaqueSemArma();
+    }
+
+    private int rolarDadosDaArma(Armas arma) {
+        String dice = arma.getDamageDice().contains("/")
+                ? arma.getDamageDice().split("/")[0]
+                : arma.getDamageDice();
+
+        String[] parts = dice.split("d");
+        int quantidade = Integer.parseInt(parts[0]);
+        int faces      = Integer.parseInt(parts[1]);
+
+        int total = 0;
+        for (int i = 0; i < quantidade; i++) {
+            total += rolarDado(arma.getDisplayName(), faces);
+        }
+        return total;
+    }
+
+    protected abstract int executarAtaqueSemArma();
 
     /** Comportamento de defesa - sobrescrito nas subclasses. */
     public int defender() {
@@ -155,15 +210,20 @@ public abstract class Personagem {
     /** Dados comuns da ficha; subclasses acrescentam a linha da classe. */
     public void exibirFicha() {
         System.out.println("--- Ficha ---");
-        System.out.println("Nome: " + nome);
+        System.out.println("Nome:           " + nome);
         System.out.println("Pontos de vida: " + pontosDeVida);
-        System.out.println("Ataque: " + ataque);
-        System.out.println("Defesa (C.A.): " + ca);
+        System.out.println("Ataque:         " + ataque);
         if (armadura != null) {
-            System.out.println("Armadura: " + armadura.getDisplayName());
+            System.out.println("Defesa (C.A.):  " + ca
+                    + " (base " + caBase + " + armadura " + armadura.getDefenseBonus() + ")");
+            System.out.println("Armadura:       " + armadura.getDisplayName()
+                    + (armadura.temPenalidade() ? " [Penalidade: " + armadura.getArmorPenalty() + "]" : ""));
+        } else {
+            System.out.println("Defesa (C.A.):  " + ca);
         }
         if (arma != null) {
-            System.out.println("Arma: " + arma.getDisplayName());
+            System.out.println("Arma:           " + arma.getDisplayName()
+                    + " [" + arma.getDamageDice() + " | " + arma.getDamageType() + "]");
         }
     }
 }
