@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
 public final class Batalha {
 
     //Loop de combate até a vitória, derrota ou fuga (reinicia o encontro).
@@ -71,6 +73,11 @@ public final class Batalha {
                 System.out.println();
                 System.out.println(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
                 jogador.atacar(goblin);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
                 return false;
             } else if ("2".equals(op)) {
                 System.out.println();
@@ -80,10 +87,20 @@ public final class Batalha {
                 System.out.println(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
                 int valorDefesa = jogador.defender();
                 jogador.setCa(caOriginal + valorDefesa);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
                 return false;
             } else if ("3".equals(op)) {
                 reiniciarEncontro(estado);
                 System.out.println("Você fugiu do combate. Seus pontos de vida perdidos ainda foram contabilizados.");
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
                 return true;
             } else {
                 System.out.print("Opção inválida. Use 1, 2 ou 3: ");
@@ -98,6 +115,11 @@ public final class Batalha {
         System.out.println();
         System.out.println();
         System.out.println();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private static void reiniciarEncontro(EstadoJogo estado) {

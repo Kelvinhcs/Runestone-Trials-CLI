@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Menu principal do jogo (opções 1–4) e fluxo associado.
@@ -47,6 +48,11 @@ public final class MenuPrincipal {
             return OpcaoMenu.SAIR;
         }
         String linha = scanner.nextLine().trim();
+        try {
+            TimeUnit.MILLISECONDS.sleep(600);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         return switch (linha) {
             case "1" -> OpcaoMenu.CRIAR_PERSONAGEM;
             case "2" -> OpcaoMenu.PERSONAGEM_ALEATORIO;
@@ -92,7 +98,17 @@ public final class MenuPrincipal {
 
             estado.setJogador(jogador);
             System.out.println("Personagem criado: " + jogador.getNome() + ".");
+            try {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
             jogador.exibirFicha();
+            try {
+                TimeUnit.MILLISECONDS.sleep(1500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
             criado = true;
         }
     }
@@ -102,6 +118,11 @@ public final class MenuPrincipal {
         System.out.println("  1 - Guerreiro (120 PV | Ataque: 8 | CA: 10)");
         System.out.println("  2 - Mago      ( 60 PV | Ataque: 12 | CA: 12)");
         System.out.println("  3 - Arqueiro  ( 85 PV | Ataque: 10 | CA: 14)");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         System.out.print("Escolha a sua classe: ");
 
         String op = scanner.hasNextLine() ? scanner.nextLine().trim() : "";
