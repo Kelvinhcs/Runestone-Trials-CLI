@@ -1,5 +1,10 @@
+package inimigos;
+
+import personagens.Personagem;
+import util.Log;
+
 /**
- * Inimigo elite — regenera PV a cada turno, dano pesado, vida alta.
+ * Inimigo elite - regenera PV a cada turno, dano pesado, vida alta.
  */
 public class Troll extends Personagem implements Inimigo {
 

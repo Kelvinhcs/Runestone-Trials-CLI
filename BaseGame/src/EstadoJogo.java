@@ -1,3 +1,5 @@
+import personagens.Personagem;
+
 /**
  * Estado compartilhado entre o menu principal e o fluxo de batalha.
  */

@@ -1,3 +1,5 @@
+package personagens;
+
 public interface Combatente {
     void atacar(Personagem alvo);
     int defender();

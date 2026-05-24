@@ -1,12 +1,14 @@
+package equipamento;
+
 public enum Armas {
-    // ─── Corpo a Corpo — Leves ────────────────────────────────────────────────
+    // ─── Corpo a Corpo - Leves ────────────────────────────────────────────────
     DAGGER          ("Adaga", WeaponType.SWORD,  "1d4",19,  "Perfuração"),
     SHORT_SWORD     ("Espada Curta", WeaponType.SWORD,  "1d6",19,"Perfuração"),
-    // ─── Corpo a Corpo — Uma Mão ──────────────────────────────────────────────
+    // ─── Corpo a Corpo - Uma Mão ──────────────────────────────────────────────
     LONG_SWORD      ("Espada Longa", WeaponType.SWORD,  "1d8", 19,  "Corte"),
     CLUB            ("Clava", WeaponType.BLUNT,  "1d6", 20, "Impacto"),
     MACE            ("Maça", WeaponType.BLUNT,  "1d8", 20,"Impacto"),
-    // ─── Corpo a Corpo — Duas Mãos ────────────────────────────────────────────
+    // ─── Corpo a Corpo - Duas Mãos ────────────────────────────────────────────
     GREATSWORD      ("Montante", WeaponType.SWORD,"2d6",19,"Corte"),
     WAR_HAMMER      ("Martelo de Guerra", WeaponType.BLUNT,"1d8",19,"Impacto"),
     // ─── Ataque à Distância ───────────────────────────────────────────────────
@@ -19,7 +21,7 @@ public enum Armas {
     private final WeaponType type;
     /** Dado de dano (ex.: "1d8", "2d6") */
     private final String damageDice;
-    /** Limiar do crítico — acima ou igual a este valor na d20 é crítico */
+    /** Limiar do crítico - acima ou igual a este valor na d20 é crítico */
     private final int criticalThreshold;
     private final String damageType;
 
@@ -45,7 +47,7 @@ public enum Armas {
     // ─── Utilitários ──────────────────────────────────────────────────────────
 
     /** Rola o dado de dano da arma e retorna o resultado.
-     *  Suporta notação "XdY" e "XdY/XdZ" (armas versáteis — rola o primeiro dado). */
+     *  Suporta notação "XdY" e "XdY/XdZ" (armas versáteis - rola o primeiro dado). */
     public int rolarDano(java.util.Random rng) {
         String dice = damageDice.contains("/") ? damageDice.split("/")[0] : damageDice;
         String[] parts = dice.split("d");

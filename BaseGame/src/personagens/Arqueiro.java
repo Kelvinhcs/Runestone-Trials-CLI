@@ -1,3 +1,7 @@
+package personagens;
+
+import util.Log;
+
 public class Arqueiro extends Personagem {
 
     public Arqueiro(String nome) {

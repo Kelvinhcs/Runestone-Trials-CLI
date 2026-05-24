@@ -1,3 +1,8 @@
+package inimigos;
+
+import personagens.Personagem;
+import util.Log;
+
 public class Orc extends Personagem implements Inimigo {
 
     public Orc() {

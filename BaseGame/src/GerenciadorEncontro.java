@@ -1,6 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import inimigos.Goblin;
+import inimigos.Lobo;
+import inimigos.Orc;
+import inimigos.Esqueleto;
+import inimigos.Troll;
+import personagens.Personagem;
+import util.Log;
 
 /**
  * Gera encontros com um ou mais inimigos aleatórios.

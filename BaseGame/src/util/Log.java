@@ -1,3 +1,5 @@
+package util;
+
 /**
  * Centraliza toda a saída de texto do jogo, desacoplando lógica de apresentação.
  */
@@ -6,7 +8,7 @@ public final class Log {
     private Log() {}
 
     public static void rolagem(String rotulo, int faces, int resultado) {
-        System.out.println(" « " + rotulo + ": 1d" + faces + " → [" + resultado + "] » ");
+        System.out.println(" « " + rotulo + ": 1d" + faces + " - [" + resultado + "] » ");
     }
 
     public static void dano(String breakdown) {
@@ -19,7 +21,7 @@ public final class Log {
 
     public static void acerto(String nome, int rolagem, int ca, boolean acertou) {
         System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + ca
-                + " — " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
+                + " - " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
     }
 
     public static void criticoAcerto() {

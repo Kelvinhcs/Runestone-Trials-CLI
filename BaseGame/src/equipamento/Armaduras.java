@@ -1,3 +1,5 @@
+package equipamento;
+
 public enum Armaduras {
     // ─── Armaduras Leves ───
     NONE             ("Sem Armadura", ArmorType.UNARMORED,0,0),

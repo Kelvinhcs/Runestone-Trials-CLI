@@ -1,5 +1,10 @@
+package inimigos;
+
+import personagens.Personagem;
+import util.Log;
+
 /**
- * Inimigo ágil — CA alta por ser pequeno, dano médio, pouca vida.
+ * Inimigo ágil - CA alta por ser pequeno, dano médio, pouca vida.
  */
 public class Esqueleto extends Personagem implements Inimigo {
 

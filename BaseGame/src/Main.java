@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Ponto de entrada — delega o menu e a batalha a outras classes.
+ * Ponto de entrada - delega o menu e a batalha a outras classes.
  */
 public class Main {
 

@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import personagens.Personagem;
+import util.Log;
 
 public final class Batalha {
 
@@ -32,7 +34,7 @@ public final class Batalha {
             if (inimigos.size() > 1) {
                 Log.info("");
                 Log.info(">>> Combate " + (i + 1) + " de " + inimigos.size()
-                        + " — " + inimigoAtual.getNome() + " <<<");
+                        + " - " + inimigoAtual.getNome() + " <<<");
                 pausar(800);
             }
 

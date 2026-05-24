@@ -2,6 +2,13 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import equipamento.Armas;
+import equipamento.Armaduras;
+import personagens.Arqueiro;
+import personagens.Guerreiro;
+import personagens.Mago;
+import personagens.Personagem;
+import util.Log;
 
 /**
  * Menu principal do jogo (opções 1–5) e fluxo associado.

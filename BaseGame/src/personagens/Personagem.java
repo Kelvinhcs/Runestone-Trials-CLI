@@ -1,5 +1,10 @@
+package personagens;
+
 import java.util.Objects;
 import java.util.Random;
+import equipamento.Armas;
+import equipamento.Armaduras;
+import util.Log;
 
 /**
  * Classe base para todos os personagens do jogo.
@@ -144,7 +149,7 @@ public abstract class Personagem implements Combatente {
 
         String breakdown = multiplicador > 1
                 ? dado + " (dado) + " + bonus + " (bônus) = " + danoBase
-                + " → " + danoBase + " x" + multiplicador + " (crítico) = " + danoTotal
+                + " - " + danoBase + " x" + multiplicador + " (crítico) = " + danoTotal
                 : dado + " (dado) + " + bonus + " (bônus) = " + danoTotal;
 
         Log.dano(breakdown);
@@ -184,24 +189,24 @@ public abstract class Personagem implements Combatente {
         return total;
     }
 
-    /** Dado usado quando sem arma equipada — definido por cada subclasse. */
+    /** Dado usado quando sem arma equipada - definido por cada subclasse. */
     protected abstract int executarAtaqueSemArma();
 
-    /** Comportamento de defesa — sobrescrito em cada subclasse com estilo próprio. */
+    /** Comportamento de defesa - sobrescrito em cada subclasse com estilo próprio. */
     @Override
     public int defender() {
         Log.info("[" + getNome() + "] Postura defensiva!");
         return rolarDado("Defesa ativa", 8);
     }
 
-    /** Rolagem de dados com print estilo mesa: « Rótulo: 1dX → [Y] » */
+    /** Rolagem de dados com print estilo mesa: « Rótulo: 1dX - [Y] » */
     protected int rolarDado(String rotulo, int faces) {
         int resultado = RNG.nextInt(faces) + 1;
         Log.rolagem(rotulo, faces, resultado);
         return resultado;
     }
 
-    /** Dados comuns da ficha — subclasses chamam super e acrescentam a linha da classe. */
+    /** Dados comuns da ficha - subclasses chamam super e acrescentam a linha da classe. */
     public void exibirFicha() {
         Log.info("--- Ficha ---");
         Log.info("Nome:           " + getNome());

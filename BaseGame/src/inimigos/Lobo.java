@@ -1,5 +1,10 @@
+package inimigos;
+
+import personagens.Personagem;
+import util.Log;
+
 /**
- * Inimigo rápido — ataca duas vezes por turno com dados menores.
+ * Inimigo rápido - ataca duas vezes por turno com dados menores.
  */
 public class Lobo extends Personagem implements Inimigo {
 
