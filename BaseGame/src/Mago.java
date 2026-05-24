@@ -12,10 +12,15 @@ public class Mago extends Personagem {
     }
 
     @Override
-    public void exibirFicha() {
-        super.exibirFicha();
-        System.out.println("Classe: Mago");
-        System.out.println("-------------");
+    public int defender() {
+        Log.info("[ " + getNome() + " ] Escudo arcano!");
+        return rolarDado("Barreira mágica", 6);
     }
 
+    @Override
+    public void exibirFicha() {
+        super.exibirFicha();
+        Log.info("Classe: Mago");
+        Log.info("-------------");
+    }
 }

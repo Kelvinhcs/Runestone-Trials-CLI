@@ -10,10 +10,15 @@ public class Arqueiro extends Personagem {
     }
 
     @Override
-    public void exibirFicha() {
-        super.exibirFicha();
-        System.out.println("Classe: Arqueiro");
-        System.out.println("-------------");
+    public int defender() {
+        Log.info("[ " + getNome() + " ] Esquiva ágil!");
+        return rolarDado("Esquiva do arqueiro", 8);
     }
 
+    @Override
+    public void exibirFicha() {
+        super.exibirFicha();
+        Log.info("Classe: Arqueiro");
+        Log.info("-------------");
+    }
 }

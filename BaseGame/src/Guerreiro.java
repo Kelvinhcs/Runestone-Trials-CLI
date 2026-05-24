@@ -10,10 +10,15 @@ public class Guerreiro extends Personagem {
     }
 
     @Override
-    public void exibirFicha() {
-        super.exibirFicha();
-        System.out.println("Classe: Guerreiro");
-        System.out.println("-------------");
+    public int defender() {
+        Log.info("[ " + getNome() + " ] Postura de escudo!");
+        return rolarDado("Resistência do guerreiro", 10);
     }
 
+    @Override
+    public void exibirFicha() {
+        super.exibirFicha();
+        Log.info("Classe: Guerreiro");
+        Log.info("-------------");
+    }
 }

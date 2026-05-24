@@ -1,11 +1,14 @@
-/**
- * Inimigo fixo da APS — 50 PV; ataca com dano bruto ataque + 1d6 (sabor de mesa).
- */
-public class Goblin extends Personagem {
+public class Goblin extends Personagem implements Inimigo {
 
     public Goblin() {
-        super("Goblin", 45, 6, 10);
+        super("Goblin", 50, 6, 10);
     }
+
+    @Override
+    public String getTipoInimigo() { return "Goblin"; }
+
+    @Override
+    public int getNivelPerigo() { return 1; }
 
     @Override
     protected int executarAtaqueSemArma() {
@@ -13,9 +16,15 @@ public class Goblin extends Personagem {
     }
 
     @Override
+    public int defender() {
+        Log.info("[ " + getNome() + " ] O Goblin recua!");
+        return rolarDado("Agilidade do goblin", 4);
+    }
+
+    @Override
     public void exibirFicha() {
         super.exibirFicha();
-        System.out.println("Classe: Inimigo (Goblin)");
-        System.out.println("-------------");
+        Log.info("Tipo: Inimigo (Goblin)");
+        Log.info("-------------");
     }
 }

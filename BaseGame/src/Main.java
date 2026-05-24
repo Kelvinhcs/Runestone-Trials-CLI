@@ -12,9 +12,3 @@ public class Main {
         }
     }
 }
-/*TODO:
-*       randomizar ordem de ataque com base nos personagens
-*       implementar ataques específicos da classe
-*       implementar sistema de mana para os ataques específicos
-*       TALVEZ adicionar um sleep para que fique mais legal acompanhar os ataques
-* */

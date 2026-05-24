@@ -1,128 +1,145 @@
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public final class Batalha {
 
-    //Loop de combate até a vitória, derrota ou fuga (reinicia o encontro).
-    public static void executar(Scanner scanner, EstadoJogo estado) {
-        Personagem jogador = estado.getJogador();
+    private Batalha() {}
 
+    public static void executar(Scanner scanner, EstadoJogo estado) {
         if (!estado.temJogador()) {
-            System.out.println("Nenhum personagem criado. Use a opção 1 primeiro.");
-            return;
-        }if (jogador.estaDerrotado()) {
-            System.out.println("Seu personagem está derrotado. Crie outro na opção 1.");
+            Log.info("Nenhum personagem criado. Use a opção 1 primeiro.");
             return;
         }
-        Goblin goblin = estado.getAndCreateGoblin();
-        System.out.println();
-        System.out.println("================= BATALHA =================");
+        if (estado.jogadorDerrotado()) {
+            Log.info("Seu personagem está derrotado. Crie outro na opção 1.");
+            return;
+        }
 
-        int rodada = 0;
+        Personagem jogador = estado.getJogador();
+        List<Personagem> inimigos = GerenciadorEncontro.gerarEncontro();
+
+        Log.info("");
+        Log.info("================= BATALHA =================");
+        GerenciadorEncontro.anunciarEncontro(inimigos);
+        pausar(1000);
+
         int caOriginal = jogador.getCa();
 
-        while (!jogador.estaDerrotado() && !goblin.estaDerrotado()) {
+        for (int i = 0; i < inimigos.size(); i++) {
+            Personagem inimigoAtual = inimigos.get(i);
+
+            if (inimigos.size() > 1) {
+                Log.info("");
+                Log.info(">>> Combate " + (i + 1) + " de " + inimigos.size()
+                        + " — " + inimigoAtual.getNome() + " <<<");
+                pausar(800);
+            }
+
+            boolean continuar = executarCombate(scanner, jogador, inimigoAtual, caOriginal, estado);
+
+            if (!continuar || jogador.estaDerrotado()) break;
+
+            if (i < inimigos.size() - 1) {
+                Log.info("");
+                Log.info("O próximo inimigo avança!");
+                pausar(1200);
+            }
+        }
+
+        Log.info("===========================================");
+    }
+
+    /** Executa o loop de combate entre o jogador e um único inimigo.
+     *  Retorna false se o jogador fugiu. */
+    private static boolean executarCombate(Scanner scanner, Personagem jogador,
+                                           Personagem inimigo, int caOriginal, EstadoJogo estado) {
+
+        int rodada = 0;
+
+        while (!jogador.estaDerrotado() && !inimigo.estaDerrotado()) {
             rodada++;
-            imprimirCabecalhoRodada(rodada, jogador, goblin);
+            imprimirCabecalhoRodada(rodada, jogador, inimigo);
 
-            boolean fugiu = executarTurnoJogador(scanner, jogador, goblin, caOriginal, estado);
-            if (fugiu) return;
+            boolean fugiu = executarTurnoJogador(scanner, jogador, inimigo, caOriginal, estado);
+            if (fugiu) return false;
 
-            if (goblin.estaDerrotado()) {
-                System.out.println();
-                System.out.println("Vitória! O Goblin foi derrotado.");
-                estado.limparGoblin();
+            if (inimigo.estaDerrotado()) {
+                Log.info("");
+                Log.info("Vitória! " + inimigo.getNome() + " foi derrotado.");
+                pausar(800);
                 break;
             }
-            if (!estado.temGoblin()){
-                goblin = estado.getAndCreateGoblin();
-            }
-            executarTurnoInimigo(goblin, jogador);
+
+            executarTurnoInimigo(inimigo, jogador);
+
             if (jogador.estaDerrotado()) {
-                System.out.println();
-                System.out.println("Você foi derrotado! Crie outro personagem na opção 1.");
+                Log.info("");
+                Log.info("Você foi derrotado! Crie outro personagem na opção 1.");
                 break;
             }
         }
-        System.out.println("===========================================");
+
+        return true;
     }
 
-
-    private static void imprimirCabecalhoRodada(int rodada, Personagem jogador, Goblin goblin) {
-        System.out.println();
-        System.out.println("------------- Rodada " + rodada + " -------------");
-        System.out.println(jogador.getNome() + ": " + jogador.getPontosDeVida() + " PV  |  Goblin: " + goblin.getPontosDeVida() + " PV");
-        System.out.println("  1 - Atacar o Goblin");
-        System.out.println("  2 - Postura Defensiva (1 rodada)");
-        System.out.println("  3 - Fugir da batalha (seus PV perdidos continuarão)");
+    private static void imprimirCabecalhoRodada(int rodada, Personagem jogador, Personagem inimigo) {
+        Log.info("");
+        Log.info("------------- Rodada " + rodada + " -------------");
+        Log.info(jogador.getNome() + ": " + jogador.getPontosDeVida()
+                + " PV  |  " + inimigo.getNome() + ": " + inimigo.getPontosDeVida() + " PV");
+        Log.info("  1 - Atacar o " + inimigo.getNome());
+        Log.info("  2 - Postura Defensiva (1 rodada)");
+        Log.info("  3 - Fugir da batalha (seus PV perdidos continuarão)");
         System.out.print("Escolha: ");
     }
 
-    //Lê e executa a ação do jogador para a rodada atual.
-    private static boolean executarTurnoJogador(Scanner scanner, Personagem jogador, Goblin goblin, int caOriginal, EstadoJogo estado) {
+    private static boolean executarTurnoJogador(Scanner scanner, Personagem jogador,
+                                                Personagem inimigo, int caOriginal, EstadoJogo estado) {
 
-        // Restaura a CA original ao início de cada turno, antes de qualquer modificação.
         jogador.setCa(caOriginal);
 
         while (true) {
             String op = scanner.hasNextLine() ? scanner.nextLine().trim() : "";
+
             if ("1".equals(op)) {
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
-                jogador.atacar(goblin);
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                Log.info("");
+                Log.info(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
+                jogador.atacar(inimigo);
+                pausar(1000);
                 return false;
+
             } else if ("2".equals(op)) {
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
+                Log.info("");
+                Log.info(">>>>>>>>>>    Sua Ação    <<<<<<<<<<");
                 int valorDefesa = jogador.defender();
                 jogador.setCa(caOriginal + valorDefesa);
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                pausar(1000);
                 return false;
+
             } else if ("3".equals(op)) {
-                reiniciarEncontro(estado);
-                System.out.println("Você fugiu do combate. Seus pontos de vida perdidos ainda foram contabilizados.");
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                Log.info("Você fugiu do combate. Seus pontos de vida perdidos ainda foram contabilizados.");
+                pausar(1000);
                 return true;
+
             } else {
                 System.out.print("Opção inválida. Use 1, 2 ou 3: ");
             }
         }
     }
 
-    private static void executarTurnoInimigo(Goblin goblin, Personagem jogador) {
-        System.out.println();
-        System.out.println(">>>>>>>>>> Ação Inimiga <<<<<<<<<<");
-        goblin.atacar(jogador);
-        System.out.println();
-        System.out.println();
-        System.out.println();
+    private static void executarTurnoInimigo(Personagem inimigo, Personagem jogador) {
+        Log.info("");
+        Log.info(">>>>>>>>>> Ação Inimiga <<<<<<<<<<");
+        inimigo.atacar(jogador);
+        pausar(1000);
+    }
+
+    private static void pausar(int milissegundos) {
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(milissegundos);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    private static void reiniciarEncontro(EstadoJogo estado) {
-        estado.limparGoblin();
     }
 }

@@ -2,81 +2,69 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * Classe base para todos os personagens adicionado ao jogo.
+ * Classe base para todos os personagens do jogo.
+ * Implementa Combatente para garantir o contrato de combate via interface.
  */
-public abstract class Personagem {
+public abstract class Personagem implements Combatente {
 
-    protected static final Random RNG = new Random();
-    protected String nome;
-    protected int pontosDeVida;
-    protected int ataque;
+    private static final Random RNG = new Random();
+
+    private String nome;
+    private int pontosDeVida;
+    private int ataque;
     private int caBase;
-    protected int ca;
-    protected Armaduras armadura;
-    protected Armas arma;
-    protected Armaduras escudo;
+    private int ca;
+    private Armaduras armadura;
+    private Armas arma;
+    private Armaduras escudo;
 
+    // ─── Construtor ───────────────────────────────────────────────────────────
 
     public Personagem(String nome, int pontosDeVida, int ataque, int ca) {
         setNome(nome);
         setPontosDeVida(pontosDeVida);
         setAtaque(ataque);
-        this.caBase = ca;
-        this.ca = ca;
+        this.caBase   = ca;
+        this.ca       = ca;
         this.armadura = null;
-        this.arma = null;
+        this.arma     = null;
+        this.escudo   = null;
     }
 
-    public String getNome() {
-        return nome;
-    }
+    // ─── Getters e Setters ────────────────────────────────────────────────────
+
+    public String getNome() { return nome; }
 
     public void setNome(String nome) {
         this.nome = Objects.requireNonNullElse(nome, "Sem nome");
     }
 
-    public int getPontosDeVida() {
-        return pontosDeVida;
-    }
+    public int getPontosDeVida() { return pontosDeVida; }
 
     public void setPontosDeVida(int pontosDeVida) {
         this.pontosDeVida = Math.max(0, pontosDeVida);
     }
 
-    public int getAtaque() {
-        return ataque;
-    }
+    public int getAtaque() { return ataque; }
 
-    public void setAtaque(int ataque) {
-        this.ataque = ataque;
-    }
+    public void setAtaque(int ataque) { this.ataque = ataque; }
 
     public int getCaBase() { return caBase; }
 
-    public int getCa() {
-        return ca;
-    }
+    public int getCa() { return ca; }
 
-    public void setCa(int ca) {
-        this.ca = Math.max(0, ca);
-    }
+    public void setCa(int ca) { this.ca = Math.max(0, ca); }
 
-    public Armaduras getArmadura() {
-        return armadura;
-    }
+    public Armaduras getArmadura() { return armadura; }
 
     public void setArmadura(Armaduras armadura) {
         this.armadura = armadura;
         recalcularCa();
     }
 
-    public Armas getArma() {
-        return arma;
-    }
+    public Armas getArma() { return arma; }
 
-    public void setArma(Armas arma) {
-        this.arma = arma;
-    }
+    public void setArma(Armas arma) { this.arma = arma; }
 
     public Armaduras getEscudo() { return escudo; }
 
@@ -94,64 +82,54 @@ public abstract class Personagem {
         this.ca = caBase + bonusArmadura + bonusEscudo;
     }
 
+    // ─── Combate ──────────────────────────────────────────────────────────────
 
+    @Override
     public boolean estaDerrotado() {
         return pontosDeVida <= 0;
     }
 
-    /** Rolagem de dados com retorno do valor e print do resultado
-     * Exemplo: « Ataque de fogo: 1d8 → [4] » */
-    protected int rolarDado(String rotulo, int faces) {
-        int resultado = RNG.nextInt(faces) + 1;
-        System.out.println(" « " + rotulo + ": 1d" + faces + " → [" + resultado + "] » ");
-        return resultado;
-    }
-
-    protected void receberDano(int danoBruto) {
-        setPontosDeVida(pontosDeVida - danoBruto);
-        System.out.println(" « " + nome + " sofre " + danoBruto + " de dano | PV restantes: " + pontosDeVida);
-    }
-
     protected boolean podeAtacar(Personagem alvo) {
         if (alvo == null) {
-            System.out.println("[ " + nome + " ] Não há alvo.");
+            Log.info("[ " + getNome() + " ] Não há alvo.");
             return false;
         }
         if (alvo == this) {
-            System.out.println("[ " + nome + " ] Não é possível atacar a si mesmo.");
+            Log.info("[ " + getNome() + " ] Não é possível atacar a si mesmo.");
             return false;
         }
         if (estaDerrotado()) {
-            System.out.println("[ " + nome + " ] Você está derrotado e não pode atacar.");
+            Log.info("[ " + getNome() + " ] Você está derrotado e não pode atacar.");
             return false;
         }
         if (alvo.estaDerrotado()) {
-            System.out.println("[ " + nome + " ] O alvo já está derrotado.");
+            Log.info("[ " + getNome() + " ] O alvo já está derrotado.");
             return false;
         }
         return true;
     }
 
+    @Override
     public final void atacar(Personagem alvo) {
         if (!podeAtacar(alvo)) return;
-        int rolagem = rolarDado("Teste de acerto", 20);
+
+        int rolagem       = rolarDado("Teste de acerto", 20);
         int limiarCritico = (arma != null) ? arma.getCriticalThreshold() : 20;
 
         if (rolagem == 1) {
-            System.out.println(" « ERRO CRÍTICO! " + nome + " se feriu com o próprio golpe! » ");
+            Log.criticoErro(getNome());
             aplicarDano(this, 1);
             return;
         }
 
         if (rolagem >= limiarCritico) {
-            System.out.println(" « ACERTO CRÍTICO! » ");
+            Log.criticoAcerto();
             aplicarDano(alvo, 2);
             return;
         }
 
         boolean acertou = rolagem >= alvo.getCa();
-        System.out.println(" « " + nome + " rolou " + rolagem + " contra CA " + alvo.getCa()
-                + " - " + (acertou ? "ACERTO!" : "ERROU!") + " » ");
+        Log.acerto(getNome(), rolagem, alvo.getCa(), acertou);
 
         if (acertou) {
             aplicarDano(alvo, 1);
@@ -159,17 +137,24 @@ public abstract class Personagem {
     }
 
     private void aplicarDano(Personagem alvo, int multiplicador) {
-        int dado = calcularDado(alvo);
-        int bonus = getBonusDano();
-        int danoBase = dado + bonus;
+        int dado      = calcularDado(alvo);
+        int bonus     = getBonusDano();
+        int danoBase  = dado + bonus;
         int danoTotal = danoBase * multiplicador;
 
         String breakdown = multiplicador > 1
-                ? dado + " (dado) + " + bonus + " (bônus) = " + danoBase + " → " + danoBase + " x" + multiplicador + " (crítico) = " + danoTotal
+                ? dado + " (dado) + " + bonus + " (bônus) = " + danoBase
+                + " → " + danoBase + " x" + multiplicador + " (crítico) = " + danoTotal
                 : dado + " (dado) + " + bonus + " (bônus) = " + danoTotal;
 
-        System.out.println(" « Dano: " + breakdown + " » ");
+        Log.dano(breakdown);
         alvo.receberDano(danoTotal);
+    }
+
+    @Override
+    public void receberDano(int danoBruto) {
+        setPontosDeVida(getPontosDeVida() - danoBruto);
+        Log.danoCausado(getNome(), danoBruto, getPontosDeVida());
     }
 
     protected int getBonusDano() {
@@ -199,30 +184,49 @@ public abstract class Personagem {
         return total;
     }
 
+    /** Dado usado quando sem arma equipada — definido por cada subclasse. */
     protected abstract int executarAtaqueSemArma();
 
-    /** Comportamento de defesa - sobrescrito nas subclasses. */
+    /** Comportamento de defesa — sobrescrito em cada subclasse com estilo próprio. */
+    @Override
     public int defender() {
-        System.out.println("[" + nome + "] Postura defensiva!");
-        return rolarDado("Defesa ativa",8);
+        Log.info("[" + getNome() + "] Postura defensiva!");
+        return rolarDado("Defesa ativa", 8);
     }
 
-    /** Dados comuns da ficha; subclasses acrescentam a linha da classe. */
+    /** Rolagem de dados com print estilo mesa: « Rótulo: 1dX → [Y] » */
+    protected int rolarDado(String rotulo, int faces) {
+        int resultado = RNG.nextInt(faces) + 1;
+        Log.rolagem(rotulo, faces, resultado);
+        return resultado;
+    }
+
+    /** Dados comuns da ficha — subclasses chamam super e acrescentam a linha da classe. */
     public void exibirFicha() {
-        System.out.println("--- Ficha ---");
-        System.out.println("Nome:           " + nome);
-        System.out.println("Pontos de vida: " + pontosDeVida);
-        System.out.println("Ataque:         " + ataque);
+        Log.info("--- Ficha ---");
+        Log.info("Nome:           " + getNome());
+        Log.info("Pontos de vida: " + getPontosDeVida());
+        Log.info("Ataque:         " + getAtaque());
+
         if (armadura != null) {
-            System.out.println("Defesa (C.A.):  " + ca
-                    + " (base " + caBase + " + armadura " + armadura.getDefenseBonus() + ")");
-            System.out.println("Armadura:       " + armadura.getDisplayName()
-                    + (armadura.temPenalidade() ? " [Penalidade: " + armadura.getArmorPenalty() + "]" : ""));
+            Log.info("Defesa (C.A.):  " + getCa()
+                    + " (base " + getCaBase() + " + armadura " + armadura.getDefenseBonus()
+                    + (escudo != null ? " + escudo " + escudo.getDefenseBonus() : "") + ")");
+            Log.info("Armadura:       " + armadura.getDisplayName()
+                    + (armadura.temPenalidade()
+                    ? " [Penalidade: " + armadura.getArmorPenalty() + "]" : ""));
         } else {
-            System.out.println("Defesa (C.A.):  " + ca);
+            Log.info("Defesa (C.A.):  " + getCa());
         }
+
+        if (escudo != null) {
+            Log.info("Escudo:         " + escudo.getDisplayName()
+                    + (escudo.temPenalidade()
+                    ? " [Penalidade: " + escudo.getArmorPenalty() + "]" : ""));
+        }
+
         if (arma != null) {
-            System.out.println("Arma:           " + arma.getDisplayName()
+            Log.info("Arma:           " + arma.getDisplayName()
                     + " [" + arma.getDamageDice() + " | " + arma.getDamageType() + "]");
         }
     }
