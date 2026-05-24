@@ -35,28 +35,119 @@ O jogador pode personalizar seu próprio nome de personagem e escolher entre as 
 
 ---
 
-## 🏗️ Estrutura do Projeto (Provisória) 🏗️
+## 🏗️ Estrutura do Projeto  🏗️
 
 ```bash
-src/
-├── model/
-│   ├── Personagem.java
-│   ├── Guerreiro.java
-│   ├── Mago.java
-│   └── Arqueiro.java
-└── main/
-    └── Main.java
+BaseGame/src/
+├── personagens/     # package personagens (Personagem, Guerreiro, Mago, Arqueiro)
+├── inimigos/        # package inimigos (Goblin, Orc, Esqueleto, Lobo, Troll)
+├── equipamento/     # package equipamento (Armas, Armaduras)
+├── util/            # package util (Log)
+├── iniciarJogo/
+│   ├── windows/     # compilar.bat, jogar.bat
+│   └── linux/       # compilar.sh, jogar.sh
+├── Main.java
+└── … (menu, batalha, etc.)
 ```
 
+## 🚀 Como executar 🚀
 
-## 🚀 Possíveis Melhorias 🚀
+### Pré-requisitos
 
-* Sistema de batalha por turnos.
-* Habilidades especiais por classe.
-* Múltiplos inimigos por andar. 
-* Geração procedural de andares.
-* Persistência de dados.
-* Melhorias na interface e jogabilidade com artes ASCII.
+- [JDK](https://www.oracle.com/java/technologies/downloads/) instalado (recomendado: Java 21 ou superior).
+- `javac` e `java` disponíveis no PATH do sistema.
+- Para conferir no terminal: `javac -version` e `java -version`.
+
+Os scripts de inicialização ficam em `BaseGame/src/iniciarJogo/`:
+
+| Arquivo | Função |
+|---------|--------|
+| `compilar.bat` / `compilar.sh` | Compila o projeto e inicia o jogo |
+| `jogar.bat` / `jogar.sh` | Apenas inicia o jogo (exige compilação prévia) |
+
+As classes compiladas são geradas na pasta `out/` na raiz do repositório.
+
+---
+
+### Windows
+
+#### Opção 1 — Clicar no arquivo
+
+1. Abra a pasta `BaseGame\src\iniciarJogo\windows\` no Explorador de Arquivos.
+2. Dê **duplo clique** em:
+   - **`compilar.bat`** — compila e abre o jogo no terminal (use na primeira vez ou após alterar o código).
+   - **`jogar.bat`** — abre o jogo sem recompilar (use quando já tiver compilado antes).
+
+O terminal permanece aberto enquanto você joga. Para sair do jogo, escolha a opção **5** no menu e pressione uma tecla quando o script pedir.
+
+#### Opção 2 — Terminal (PowerShell ou CMD)
+
+**Usando os scripts:**
+
+```powershell
+cd BaseGame\src\iniciarJogo\windows
+.\compilar.bat
+```
+
+Para jogar sem recompilar:
+
+```powershell
+cd BaseGame\src\iniciarJogo\windows
+.\jogar.bat
+```
+
+**Compilando e executando manualmente:**
+
+```powershell
+cd BaseGame\src
+javac -encoding UTF-8 -d ..\..\out Main.java
+java -Dfile.encoding=UTF-8 -cp ..\..\out Main
+```
+
+---
+
+### Linux / macOS
+
+#### Opção 1 — Executar o arquivo (gerenciador de arquivos)
+
+1. Abra a pasta `BaseGame/src/iniciarJogo/linux/`.
+2. Na **primeira vez**, torne os scripts executáveis pelo terminal (veja abaixo) ou pelas propriedades do arquivo, se o seu ambiente permitir.
+3. Execute **`compilar.sh`** (compila e inicia) ou **`jogar.sh`** (só inicia).
+
+Em muitas distribuições, o clique direto em `.sh` abre o editor em vez de executar; nesse caso, use a opção 2.
+
+#### Opção 2 — Terminal
+
+**Primeira vez** — dar permissão de execução:
+
+```bash
+cd BaseGame/src/iniciarJogo/linux
+chmod +x compilar.sh jogar.sh
+```
+
+**Usando os scripts:**
+
+```bash
+cd BaseGame/src/iniciarJogo/linux
+./compilar.sh
+```
+
+Para jogar sem recompilar:
+
+```bash
+cd BaseGame/src/iniciarJogo/linux
+./jogar.sh
+```
+
+**Compilando e executando manualmente:**
+
+```bash
+cd BaseGame/src
+javac -encoding UTF-8 -d ../../out Main.java
+java -Dfile.encoding=UTF-8 -cp ../../out Main
+```
+
+---
 
 ## 📌 Observações 📌
 
